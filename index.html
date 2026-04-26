@@ -143,7 +143,7 @@ button:hover { transform: scale(1.1); }
   <div id="timer" class="countdown"></div>
   <p>Tap below... I made something just for you</p>
 
-  <button onclick="startTyping()">Open Surprise</button>
+  <button onclick="startTyping()">From My Heart</button>
 
   <div id="message" class="hidden card">
     <h2>To My Panchu 💕</h2>
@@ -216,17 +216,34 @@ function finalReveal() {
 }
 
 /* Hearts */
-function generateHearts() {
-  for (let i = 0; i < 30; i++) {
-    let heart = document.createElement('div');
-    heart.innerHTML = '❤️';
-    heart.classList.add('heart');
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-    document.body.appendChild(heart);
+function finalReveal() {
+  const finalEl = document.getElementById('finalMessage');
 
-    setTimeout(() => heart.remove(), 6000);
+  finalEl.classList.remove('hidden');
+  finalEl.style.display = "block";
+  finalEl.style.position = "relative";
+  finalEl.style.zIndex = "999";
+  finalEl.style.color = "#fff";
+  finalEl.style.marginTop = "20px";
+
+  finalEl.innerHTML = "";
+
+  const message = "I LOVE YOU FOREVER PANCHU ❤️";
+  let i = 0;
+
+  function typeFinal() {
+    if (i < message.length) {
+      finalEl.innerHTML += message.charAt(i);
+      i++;
+      setTimeout(typeFinal, 60);
+    } else {
+      document.body.classList.add('shake');
+      setTimeout(() => document.body.classList.remove('shake'), 500);
+    }
   }
+
+  typeFinal();
+  generateHearts();
 }
 
 /* Engagement Timer */
