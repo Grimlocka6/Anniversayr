@@ -7,38 +7,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body {
-      color: #fff;
-      overflow-x: hidden;
-    }
+    body { color: #fff; overflow: hidden; }
 
     .bg-img {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -2;
+      position: fixed; width: 100%; height: 100%; object-fit: cover; z-index: -2;
+      animation: zoom 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes zoom {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
     }
 
     .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.4);
-      z-index: -1;
+      position: fixed; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); z-index: -1;
     }
 
     .container {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
+      height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
       padding: 20px;
     }
 
@@ -46,33 +34,46 @@
     p { font-size: 1.1rem; margin-bottom: 20px; }
 
     button {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 30px;
-      background: #fff;
-      color: #ff6b81;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s;
-      margin-top: 10px;
+      padding: 12px 24px; border: none; border-radius: 30px;
+      background: #fff; color: #ff6b81; font-size: 1rem;
+      cursor: pointer; transition: 0.3s; margin-top: 10px;
     }
     button:hover { transform: scale(1.1); }
 
     .hidden { display: none; }
 
     .card {
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(10px);
-      padding: 20px;
-      border-radius: 20px;
-      margin-top: 20px;
-      max-width: 320px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(12px);
+      padding: 20px; border-radius: 20px;
+      margin-top: 20px; max-width: 320px;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .big-love {
+      font-size: 2.5rem; margin-top: 20px;
+      animation: pop 1s ease forwards;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .countdown {
+      font-size: 1.1rem;
+      margin-top: 10px;
+      opacity: 0.9;
     }
 
     .heart {
-      position: fixed;
-      color: red;
-      animation: float 5s linear infinite;
+      position: fixed; color: red;
+      animation: float 6s linear infinite;
     }
 
     @keyframes float {
@@ -80,80 +81,103 @@
       100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
     }
 
-    .big-love {
-      font-size: 2rem;
-      margin-top: 20px;
-      animation: pop 0.8s ease forwards;
+    .intro {
+      position: absolute; width: 100%; height: 100%;
+      display: flex; justify-content: center; align-items: center;
+      background: black; color: white; z-index: 5;
+      font-size: 1.5rem;
+      animation: fadeOut 3s forwards;
+      animation-delay: 2s;
     }
 
-    @keyframes pop {
-      from { transform: scale(0); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
     }
+
   </style>
 </head>
 <body>
 
-  <!-- Replace the src below with your uploaded image URL -->
-  <img class="bg-img" src="https://i.postimg.cc/0QfQTP9C/P.jpg" />
-  <div class="overlay"></div>
+<div class="intro">Something special is loading for you ❤️</div>
 
-  <div class="container">
-    <h1>Happy Engagement Anniversary, Panchu ❤️</h1>
-    <p>Tap below... I made something just for you</p>
-    <button onclick="startTyping()">Open Surprise</button>
+<img class="bg-img" src="YOUR_IMAGE_URL_HERE" />
+<div class="overlay"></div>
 
-    <div id="message" class="hidden card">
-      <h2>To My Panchu 💕</h2>
-      <p id="typedText"></p>
-      <button id="finalBtn" class="hidden" onclick="finalReveal()">Tap one last time ❤️</button>
-    </div>
+<div class="container">
+  <h1>Happy Engagement Anniversary, Panchu ❤️</h1>
+  <div class="countdown" id="timer"></div>
+  <p>Tap below... I made something just for you</p>
+  <button onclick="startTyping()">Open Surprise</button>
 
-    <div id="finalMessage" class="hidden big-love">
-      I LOVE YOU PANCHU ❤️
-    </div>
+  <div id="message" class="hidden card">
+    <h2>To My Panchu 💕</h2>
+    <p id="typedText"></p>
+    <button id="finalBtn" class="hidden" onclick="finalReveal()">One last thing ❤️</button>
   </div>
 
-  <script>
-    const text = `From the day we said yes to forever,\nmy life changed in the most beautiful way.\n\nEvery moment with you feels special,\nand today is just a reminder of\nhow lucky I am to have you.\n\nPanchu, you are my happiness,\nmy peace, and my everything ❤️\n\nHere's to us, to love, and to forever.`;
+  <div id="finalMessage" class="hidden big-love">
+    I LOVE YOU PANCHU ❤️
+  </div>
+</div>
 
-    function startTyping() {
-      document.getElementById('message').classList.remove('hidden');
-      let i = 0;
-      const speed = 40;
+<script>
+const text = `From the day we said yes to forever,\nmy life changed in the most beautiful way.\n\nEvery moment with you feels special,\nand today is just a reminder of\nhow lucky I am to have you.\n\nPanchu, you are my happiness,\nmy peace, and my everything ❤️\n\nHere's to us, to love, and to forever.`;
 
-      function type() {
-        if (i < text.length) {
-          document.getElementById('typedText').innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
-          i++;
-          setTimeout(type, speed);
-        } else {
-          document.getElementById('finalBtn').classList.remove('hidden');
-        }
-      }
+function startTyping() {
+  document.getElementById('message').classList.remove('hidden');
+  let i = 0;
 
-      type();
-      generateHearts();
+  function type() {
+    if (i < text.length) {
+      document.getElementById('typedText').innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+      i++;
+      setTimeout(type, 35);
+    } else {
+      document.getElementById('finalBtn').classList.remove('hidden');
     }
+  }
 
-    function finalReveal() {
-      document.getElementById('finalMessage').classList.remove('hidden');
-      generateHearts();
-    }
+  type();
+  generateHearts();
+}
 
-    function generateHearts() {
-      for (let i = 0; i < 25; i++) {
-        let heart = document.createElement('div');
-        heart.innerHTML = '❤️';
-        heart.classList.add('heart');
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-        heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        document.body.appendChild(heart);
+function finalReveal() {
+  document.getElementById('finalMessage').classList.remove('hidden');
+  generateHearts();
+}
 
-        setTimeout(() => heart.remove(), 5000);
-      }
-    }
-  </script>
+function generateHearts() {
+  for (let i = 0; i < 30; i++) {
+    let heart = document.createElement('div');
+    heart.innerHTML = '❤️';
+    heart.classList.add('heart');
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+    heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+  }
+}
+
+// Engagement timer (change date here)
+// 👉 Set your actual engagement date here (YYYY-MM-DD)
+const engagementDate = new Date("2024-04-26");
+
+function updateTimer() {
+  const now = new Date();
+  const diff = now - engagementDate;
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const years = Math.floor(days / 365);
+  const remainingDays = days % 365;
+
+  document.getElementById('timer').innerText = 
+    `It's been ${years} year(s) and ${remainingDays} day(s) since we said yes ❤️`;
+}
+
+updateTimer();
+</script>
+
 </body>
 </html>
