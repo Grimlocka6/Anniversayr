@@ -100,7 +100,7 @@
 
 <div class="intro">Something special is loading for you ❤️</div>
 
-<img class="bg-img" src="YOUR_IMAGE_URL_HERE" />
+<img class="bg-img" src="https://i.postimg.cc/0QfQTP9C/P.jpg" />
 <div class="overlay"></div>
 
 <div class="container">
@@ -112,7 +112,7 @@
   <div id="message" class="hidden card">
     <h2>To My Panchu 💕</h2>
     <p id="typedText"></p>
-    <button id="finalBtn" class="hidden" onclick="finalReveal()">One last thing ❤️</button>
+    <button id="finalBtn" class="hidden" onclick="finalReveal()">I love you forever ❤️</button>
   </div>
 
   <div id="finalMessage" class="hidden big-love">
@@ -142,7 +142,17 @@ function startTyping() {
 }
 
 function finalReveal() {
-  document.getElementById('finalMessage').classList.remove('hidden');
+  const finalEl = document.getElementById('finalMessage');
+  finalEl.classList.remove('hidden');
+  finalEl.innerText = "I LOVE YOU FOREVER PANCHU ❤️";
+
+  // slight zoom effect on background for impact
+  const bg = document.querySelector('.bg-img');
+  if (bg) {
+    bg.style.transform = 'scale(1.15)';
+    bg.style.transition = 'transform 1.5s ease';
+  }
+
   generateHearts();
 }
 
