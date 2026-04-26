@@ -12,7 +12,7 @@
 
 body { color: #fff; overflow: hidden; }
 
-/* Background Image */
+/* Background */
 .bg-img {
   position: fixed;
   width: 100%;
@@ -27,7 +27,6 @@ body { color: #fff; overflow: hidden; }
   to { transform: scale(1.1); }
 }
 
-/* Overlay */
 .overlay {
   position: fixed;
   width: 100%;
@@ -36,7 +35,7 @@ body { color: #fff; overflow: hidden; }
   z-index: -1;
 }
 
-/* Intro screen */
+/* Intro */
 .intro {
   position: absolute;
   width: 100%;
@@ -55,7 +54,7 @@ body { color: #fff; overflow: hidden; }
   to { opacity: 0; visibility: hidden; }
 }
 
-/* Main container */
+/* Layout */
 .container {
   height: 100vh;
   display: flex;
@@ -66,8 +65,8 @@ body { color: #fff; overflow: hidden; }
   padding: 20px;
 }
 
-h1 { font-size: 2.2rem; margin-bottom: 10px; }
-p { font-size: 1.1rem; margin-bottom: 20px; }
+h1 { font-size: 2rem; margin-bottom: 10px; }
+p { font-size: 1rem; margin-bottom: 20px; }
 
 button {
   padding: 12px 24px;
@@ -78,7 +77,6 @@ button {
   cursor: pointer;
   transition: 0.3s;
 }
-
 button:hover { transform: scale(1.1); }
 
 .hidden { display: none; }
@@ -93,24 +91,52 @@ button:hover { transform: scale(1.1); }
   margin-top: 20px;
 }
 
-/* Final message */
-.big-love {
-  font-size: 2.2rem;
-  margin-top: 20px;
+/* Bottom Final Message */
+#finalMessage {
+  display: none;
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.6rem;
   text-align: center;
+  color: white;
+  z-index: 9999;
+  font-weight: bold;
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 20px;
 }
 
-/* Shake effect */
+/* Slide up */
+.slide-up {
+  animation: slideUp 0.8s ease forwards;
+}
+@keyframes slideUp {
+  from { transform: translate(-50%, 50px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+/* Glow */
+.glow {
+  animation: glowPulse 2s infinite;
+}
+@keyframes glowPulse {
+  0% { text-shadow: 0 0 5px #fff; }
+  50% { text-shadow: 0 0 20px #ff6b81; }
+  100% { text-shadow: 0 0 5px #fff; }
+}
+
+/* Shake */
 .shake {
   animation: shake 0.4s;
 }
-
 @keyframes shake {
-  0% { transform: translate(0px, 0px); }
-  25% { transform: translate(2px, -2px); }
-  50% { transform: translate(-2px, 2px); }
-  75% { transform: translate(2px, 2px); }
-  100% { transform: translate(0px, 0px); }
+  0% { transform: translate(0,0); }
+  25% { transform: translate(2px,-2px); }
+  50% { transform: translate(-2px,2px); }
+  75% { transform: translate(2px,2px); }
+  100% { transform: translate(0,0); }
 }
 
 /* Hearts */
@@ -119,14 +145,9 @@ button:hover { transform: scale(1.1); }
   color: red;
   animation: float 6s linear infinite;
 }
-
 @keyframes float {
   0% { transform: translateY(100vh); opacity: 1; }
   100% { transform: translateY(-10vh); opacity: 0; }
-}
-
-.countdown {
-  margin-bottom: 10px;
 }
 </style>
 </head>
@@ -140,10 +161,10 @@ button:hover { transform: scale(1.1); }
 
 <div class="container">
   <h1>Happy Engagement Anniversary, Panchu ❤️</h1>
-  <div id="timer" class="countdown"></div>
+  <div id="timer"></div>
   <p>Tap below... I made something just for you</p>
 
-  <button onclick="startTyping()">From the Heart</button>
+  <button onclick="startTyping()">From my heart ❤️</button>
 
   <div id="message" class="hidden card">
     <h2>To My Panchu 💕</h2>
@@ -153,24 +174,13 @@ button:hover { transform: scale(1.1); }
       I love you forever ❤️
     </button>
   </div>
-
-  <div id="finalMessage" style="
-  display:none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2.2rem;
-  text-align: center;
-  color: white;
-  z-index: 9999;
-  font-weight: bold;
-"></div>
 </div>
+
+<div id="finalMessage"></div>
 
 <script>
 
-/* Typing Message */
+/* Typing */
 const text = `From the day we said yes to forever,
 my life changed in the most beautiful way.
 
@@ -189,7 +199,7 @@ function startTyping() {
 
   function type() {
     if (i < text.length) {
-      document.getElementById('typedText').innerHTML += 
+      document.getElementById('typedText').innerHTML +=
         text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
       i++;
       setTimeout(type, 35);
@@ -204,19 +214,22 @@ function startTyping() {
 
 /* Final Reveal */
 function finalReveal() {
-  const finalEl = document.getElementById('finalMessage');
-  finalEl.classList.remove('hidden');
-  finalEl.innerHTML = "";
+  const el = document.getElementById('finalMessage');
 
-  const message = "I LOVE YOU FOREVER PANCHU ❤️";
+  el.style.display = "block";
+  el.innerHTML = "";
+  el.classList.add('slide-up');
+
+  const msg = "I LOVE YOU FOREVER PANCHU ❤️";
   let i = 0;
 
   function typeFinal() {
-    if (i < message.length) {
-      finalEl.innerHTML += message.charAt(i);
+    if (i < msg.length) {
+      el.innerHTML += msg.charAt(i);
       i++;
       setTimeout(typeFinal, 60);
     } else {
+      el.classList.add('glow');
       document.body.classList.add('shake');
       setTimeout(() => document.body.classList.remove('shake'), 500);
     }
@@ -227,32 +240,20 @@ function finalReveal() {
 }
 
 /* Hearts */
-function finalReveal() {
-  const finalEl = document.getElementById('finalMessage');
+function generateHearts() {
+  for (let i = 0; i < 30; i++) {
+    let h = document.createElement('div');
+    h.innerHTML = '❤️';
+    h.classList.add('heart');
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (Math.random() * 20 + 10) + 'px';
+    document.body.appendChild(h);
 
-  finalEl.style.display = "block";
-  finalEl.innerHTML = "";
-
-  const message = "I LOVE YOU FOREVER PANCHU ❤️";
-  let i = 0;
-
-  function typeFinal() {
-    if (i < message.length) {
-      finalEl.innerHTML += message.charAt(i);
-      i++;
-      setTimeout(typeFinal, 60);
-    } else {
-      // shake effect AFTER text appears
-      document.body.classList.add('shake');
-      setTimeout(() => document.body.classList.remove('shake'), 500);
-    }
+    setTimeout(() => h.remove(), 6000);
   }
-
-  typeFinal();
-  generateHearts();
 }
 
-/* Engagement Timer */
+/* Timer */
 const engagementDate = new Date("2024-04-26");
 
 function updateTimer() {
