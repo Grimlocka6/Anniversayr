@@ -154,7 +154,18 @@ button:hover { transform: scale(1.1); }
     </button>
   </div>
 
-  <div id="finalMessage" class="hidden big-love"></div>
+  <div id="finalMessage" style="
+  display:none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.2rem;
+  text-align: center;
+  color: white;
+  z-index: 9999;
+  font-weight: bold;
+"></div>
 </div>
 
 <script>
@@ -219,13 +230,7 @@ function finalReveal() {
 function finalReveal() {
   const finalEl = document.getElementById('finalMessage');
 
-  finalEl.classList.remove('hidden');
   finalEl.style.display = "block";
-  finalEl.style.position = "relative";
-  finalEl.style.zIndex = "999";
-  finalEl.style.color = "#fff";
-  finalEl.style.marginTop = "20px";
-
   finalEl.innerHTML = "";
 
   const message = "I LOVE YOU FOREVER PANCHU ❤️";
@@ -237,6 +242,7 @@ function finalReveal() {
       i++;
       setTimeout(typeFinal, 60);
     } else {
+      // shake effect AFTER text appears
       document.body.classList.add('shake');
       setTimeout(() => document.body.classList.remove('shake'), 500);
     }
